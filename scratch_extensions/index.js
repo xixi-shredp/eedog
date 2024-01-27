@@ -88,46 +88,101 @@ class Scratch3EERobot {
                         device: {
                             type: ArgumentType.STRING,
                             defaultValue: "机器人舵机",
-							menu:"devices"
+			    menu:"devices"
                         }
                     }
                 },
-                {
-                    opcode: 'loadAIModule',
+		{
+                    opcode: 'move',
                     blockType: BlockType.COMMAND,
-                    text: 'load AI Module'
+                    text: '模式[state] 速度[speed]',
+                    arguments: {
+                        state: {
+                            type: ArgumentType.STRING,
+                            defaultValue: '0',
+			    menu:'state'
+                        },
+			speed: {
+                            type: ArgumentType.STRING,
+                            defaultValue: '0',
+			    menu:'speed'
+                        }
+                    }
                 },
-                {
-                    opcode: 'getRight',
-                    blockType: BlockType.BOOLEAN,
-                    text: '识别人脸右转'
-                },
-                {
-                    opcode: 'turnLeft',
+		{
+                    opcode: 'height',
                     blockType: BlockType.COMMAND,
-                    text: '机器狗左转'
+                    text: '高度[height]mm',
+                    arguments: {
+                        height: {
+                            type: ArgumentType.NUMBER,
+                            defaultValue: '110'
+                        }
+                    }
                 },
-                {
-                    opcode: 'turnRight',
+		{
+                    opcode: 'gesture',
                     blockType: BlockType.COMMAND,
-                    text: '机器狗右转'
+                    text: '俯仰角[PIT]° 滚转角[POL]° 后前平移[X]mm',
+                    arguments: {
+                        PIT: {
+                            type: ArgumentType.NUMBER,
+                            defaultValue: '0'
+                        },
+			POL: {
+                            type: ArgumentType.NUMBER,
+                            defaultValue: '0'
+                        },
+			X: {
+                            type: ArgumentType.NUMBER,
+                            defaultValue: '0'
+                        }
+                    }
+                },
+		{
+                    opcode: 'gait',
+                    blockType: BlockType.COMMAND,
+                    text: '姿态[gait]模式',
+                    arguments: {
+                        gait: {
+                            type: ArgumentType.STRING,
+                            defaultValue: '0',
+			    menu:'gait'
+                        }
+                    }
                 }
-            ],
+	    ],
             menus: {
-				devices: {
+		    devices: {
                     acceptReporters: true,
                     items: [{ text: "机器人舵机", value: "uart"}, {text: "摄像头", value: "camera"}]
+                },
+		    state: {
+                    acceptReporters: true,
+                    items: [{ text: "停止", value: "0"}, {text: "左转", value: "1"}, {text: "右转", value: "2"}, {text: "前进", value: "3"}, {text: "后退", value: "4"}]
+                },
+		    speed: {
+                    acceptReporters: true,
+                    items: [{ text: "静止", value: "0"}, {text: "1档", value: "1"}, {text: "2档", value: "2"}, {text: "3档", value: "3"}, {text: "4档", value: "4"}, {text: "5档", value: "5"}, {text: "6档", value: "6"}]
+                },
+                    gait: {
+                    acceptReporters: true,
+                    items: [{ text: "奔跑", value: "0"}, {text: "行走", value: "1"}]
                 }
             }
-        };
+	};
     }
     writeLog (args) {
         const text = Cast.toString(args.TEXT);
         log.log(text);
     }
-	runPython (args){
-		sendData("hello");
-	}
+    runPython (args) {sendData("Hello!");}
+    move (args) {sendData("m,"+args.state+","+args.speed);}
+    height (args) {sendData("h,"+args.height);}
+    gesture (args) {sendData("g,"+args.PIT+','+args.POL+','+args.X);}
+    gait (args) {sendData("a,"+args.gait);}
+
+
 }
 
 module.exports = Scratch3EERobot;
