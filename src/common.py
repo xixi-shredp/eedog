@@ -88,9 +88,9 @@ def move(state, speed):
 # ROL    : -10  ->  10    default:0    unit:dec
 # X      : -10  ->  40    default:0    unit:mm
 def gesture(PIT, ROL, X):
-    PIT = limit(PIT, -10, 10)
-    ROL = limit(ROL, -10, 10)
-    X = limit(X, -10, 40)
+    PIT = limit(PIT, 10, -10)
+    ROL = limit(ROL, 10, -10)
+    X   = limit(X,   40, -10)
     if PC_DEBUG == 0:
         padog.gesture(PIT, ROL, X)
     else:
@@ -99,7 +99,7 @@ def gesture(PIT, ROL, X):
 
 # height :  70  -> 120    default:110  unit:mm
 def height(h):
-    h = limit(h, 70, 120)
+    h = limit(h, 120, 70)
     if PC_DEBUG == 0:
         padog.height(h)
     else:
@@ -180,3 +180,4 @@ def execCMD(cmd: str, args: list):
             else:
                 cmd_handle(*args[0:num_of_args])
             break
+

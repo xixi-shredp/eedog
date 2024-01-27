@@ -2,12 +2,14 @@ from machine import UART
 
 uart = UART(2, baudrate=9600)
 
-
+# -----------------------------------------------need to test
 def ESPreceive():
     # data[0]表示命令种类 p:退出进程 m:移动 h:高度 g:姿态
     # data[1]至data[4]表示参数
     global uart
     data = uart.readline()
+    return data
+
     if data != None:
         data = data.decode("utf-8")  # 从端口读5个字节
         data = data.split(',')
